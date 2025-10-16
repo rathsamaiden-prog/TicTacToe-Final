@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background: radial-gradient(circle at top left, #1e1b29, #0d0c11);
+            font-family: 'Segoe UI', sans-serif;
+        }
+        #outersect {
+            background: linear-gradient(145deg, #17151f, #1f1c29);
+            width: 360px;
+            height: 650px;
+            border-radius: 15px;
+            padding: 10px;
+            border: 1px solid rgba(97, 32, 181, 0.2);
+        }
+        #titlesect {
+            text-align: center;
+            color: #dcd0ff;
+            border-bottom: solid 2px hsl(263, 44%, 51%);
+            padding-bottom: 10px;
+            font-size: 22px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        #columns {
+            width: 300px;
+            height: 300px;
+            display: flex;
+            flex-wrap: wrap;
+            align-content: flex-start;
+            justify-content: center;
+            margin: 25px auto 0 auto;
+        }
+        #statsect {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        #player1stats, #player2stats {
+            width: 147.5px;
+            text-align: center;
+            background-color: rgba(160, 102, 255, 0.1);
+            border-radius: 8px;
+            padding: 5px 0;
+        }
+        #playertitle {
+            color: #dcd0ff;
+            border-bottom: solid 2px #63537c;
+            padding-bottom: 6px;
+            font-size: larger;
+        }
+        #whitestyle {
+            color: rgb(210, 197, 197);
+            font-size: smaller;
+        }
+        #tiecount {
+            color: rgb(210, 197, 197);
+            text-align: center;
+            margin: 8px 0;
+            font-size: 14px;
+            padding-bottom: 10px;
+            border-bottom: solid 2px #63537c;
+        }
+        #status {
+            color: rgb(210, 197, 197);
+            text-align: center;
+            margin: 8px 0;
+            font-size: 14px;
+        }
+        .score {
+            color: #ffffff;
+            border: solid 1px hsl(263, 44%, 51%);
+            height: 50px;
+            line-height: 50px;
+            margin: 5px;
+            border-radius: 6px;
+            background-color: rgba(97, 32, 181, 0.15);
+            font-weight: 600;
+        }
+        .row-button {
+            height: 95px;
+            width: 95px;
+            background-color: #181621;
+            border: solid 1px hsl(263, 44%, 51%);
+            transition: all 0.14s ease-in-out;
+        }
+        .row-button:hover {
+            border-color: #b788ff;
+            box-shadow: 0 0 8px #b788ff55;
+            transform: scale(1.05);
+        }
+        .row-button:active {
+            background-color: rgba(97, 32, 181, 0.15);
+            border-color: #ffffff;
+            transform: scale(0.98);
+        }
+        .x, .o {
+            filter: hue-rotate(90deg);
+        }
+        #bottomd{
+            border: none; 
+            border-top: solid 2px hsl(263, 44%, 51%); 
+            margin-top: 1px; 
+        }
+    </style>
+</head>
+
+<body>
+    <div id="outersect">
+        <p id="titlesect">Tic-Tac-Toe</p>
+        <div id="statsect">
+            <div id="player1stats">
+                <p id="whitestyle">Player X</p>
+                <p id="playertitle">Player 1</p>
+                <p class="score" id="p1score">0</p>
+            </div>
+            <div id="player2stats">
+                <p id="whitestyle">Player O</p>
+                <p id="playertitle">Player 2</p>
+                <p class="score" id="p2score">0</p>
+            </div>
+        </div>
+        <p id="tiecount">0 ties</p>
+        <p id="status">Player1: X</p>
+        <div id="columns">
+            <button id="1" class="row-button"></button>
+            <button id="2" class="row-button"></button>
+            <button id="3" class="row-button"></button>
+            <button id="4" class="row-button"></button>
+            <button id="5" class="row-button"></button>
+            <button id="6" class="row-button"></button>
+            <button id="7" class="row-button"></button>
+            <button id="8" class="row-button"></button>
+            <button id="9" class="row-button"></button>
+        </div>
+        <hr id="bottomd"> 
+    </div>
+</body>
+
+</html>
