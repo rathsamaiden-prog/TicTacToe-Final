@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,6 +31,19 @@
             font-size: 22px;
             font-weight: 600;
             letter-spacing: 1px;
+            height: 28px;
+            white-space: nowrap;
+        }
+        #cursor {
+            display: inline-block;
+            color: #dcd0ff;
+            font-weight: bold;
+            animation: inout 0.8s steps(2, start) infinite;
+        }
+        @keyframes inout {
+            to {
+                visibility: hidden;
+            }
         }
         #columns {
             width: 300px;
@@ -45,12 +59,19 @@
             justify-content: center;
             gap: 10px;
         }
-        #player1stats, #player2stats {
+        #player1stats,
+        #player2stats {
             width: 147.5px;
             text-align: center;
             background-color: rgba(160, 102, 255, 0.1);
             border-radius: 8px;
             padding: 5px 0;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+        #player1stats:hover,
+        #player2stats:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 10px rgba(86, 43, 156, 0.2);
         }
         #playertitle {
             color: #dcd0ff;
@@ -65,10 +86,11 @@
         #tiecount {
             color: rgb(210, 197, 197);
             text-align: center;
-            margin: 8px 0;
+            margin: 8px auto;
             font-size: 14px;
             padding-bottom: 10px;
             border-bottom: solid 2px #63537c;
+            width: 287px;
         }
         #status {
             color: rgb(210, 197, 197);
@@ -103,21 +125,23 @@
             border-color: #ffffff;
             transform: scale(0.98);
         }
+        .selected-row-button {
+            height: 95px;
+            width: 95px;
+            background-color: #282536;
+            border: solid 1px hsl(263, 44%, 51%);
+            transition: all 0.14s ease-in-out;
+        }
         .placedTile {
             width: 80%;
             filter: hue-rotate(90deg);
-        }
-        #bottomd{
-            border: none; 
-            border-top: solid 2px hsl(263, 44%, 51%); 
-            margin-top: 1px; 
         }
     </style>
 </head>
 
 <body>
     <div id="outersect">
-        <p id="titlesect">Tic-Tac-Toe</p>
+        <p id="titlesect"><span id="typewriter"></span><span id="cursor">|</span></p>
         <div id="statsect">
             <div id="player1stats">
                 <p id="whitestyle">Player X</p>
@@ -143,9 +167,34 @@
             <button id="8" class="row-button" onclick="placeTile(this)"></button>
             <button id="9" class="row-button" onclick="placeTile(this)"></button>
         </div>
-        <hr id="bottomd"> 
     </div>
-    <script src="script.js"></script>
+    <script>
+        const title = document.getElementById("typewriter")
+        const txt = "Tic-Tac-Toe"
+        let i = 0
+        let del = false
+
+        function typewriter() { // recursive function to handle the typewriter animation
+            if (!del) {
+                title.textContent = txt.slice(0, i++)
+                if (i > txt.length) {
+                    del = true
+                    setTimeout(typewriter, 2500) // 2.5 seconds so the user can actually read the title lol
+                    return
+                }
+            }
+            else {
+                title.textContent = txt.slice(0, i--)
+                if (i < 0) {
+                    del = false
+                    i = 0
+                }
+            }
+            setTimeout(typewriter, del ? 50 : 150)
+        }
+        typewriter()
+    </script>
+  <script src=`script.js`>
 </body>
 
 </html>
