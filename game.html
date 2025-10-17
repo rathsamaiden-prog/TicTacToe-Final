@@ -34,6 +34,17 @@
             height: 28px;
             white-space: nowrap;
         }
+        #cursor {
+            display: inline-block;
+            color: #dcd0ff;
+            font-weight: bold;
+            animation: inout 0.8s steps(2, start) infinite;
+        }
+        @keyframes inout {
+            to {
+                visibility: hidden;
+            }
+        }
         #columns {
             width: 300px;
             height: 300px;
@@ -130,7 +141,7 @@
 
 <body>
     <div id="outersect">
-        <p id="titlesect">Tic-Tac-Toe</p>
+        <p id="titlesect"><span id="typewriter"></span><span id="cursor">|</span></p>
         <div id="statsect">
             <div id="player1stats">
                 <p id="whitestyle">Player X</p>
@@ -158,7 +169,7 @@
         </div>
     </div>
     <script>
-        const title = document.getElementById("titlesect")
+        const title = document.getElementById("typewriter")
         const txt = "Tic-Tac-Toe"
         let i = 0
         let del = false
