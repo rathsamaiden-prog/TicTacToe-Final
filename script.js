@@ -1,17 +1,20 @@
-let board;
-let winCombos;
-let player;
-let currentPlayer;
-let benchPlayer;
+let board
+let winCombos
+let player
+let currentPlayer
+let benchPlayer
+let player1Wins = 0
+let player2Wins = 0
 reset()
 
 function placeTile(cell){
+    console.log(currentPlayer)
     let cellLoc = cell.id
     if(board[cellLoc-1][1] != null)
         return
     board[cellLoc-1][1] = currentPlayer[1]
-    console.log(board)
     checkLine(currentPlayer[1])
+    setUIVals(cell)
     if(currentPlayer[1] === `X`){
         currentPlayer = player.two
         benchPlayer = player.one
@@ -19,16 +22,18 @@ function placeTile(cell){
         currentPlayer = player.one
         benchPlayer = player.two
     }
-    setUIVals(cell)
 }
 
 function setUIVals(cell){
-    cell.children.src = `img/${currentPlayer[1]}.png`
-    document.getElementById(`status`).innerHTML = `Player ${currentPlayer[0]}: ${currentPlayer[1]}`
-    if(benchPlayer[2]){
-        benchPlayer[3] += 1
-        document.getElementById(`p${benchPlayer[0]}score`).innerHTML = benchPlayer[3]
-        reset()
+    cell.innerHTML = `<img src="img/${currentPlayer[1]}.png" class="placedTile">`
+    document.getElementById(`status`).innerHTML = `Player ${benchPlayer[0]}: ${benchPlayer[1]}`
+    if(currentPlayer[2]){
+        currentPlayer[3] += 1
+        player1Wins = player.one[3]
+        player2Wins = player.two[3]
+        document.getElementById(`p${currentPlayer[0]}score`).innerHTML = currentPlayer[3]
+        reset(currentPlayer)
+        document.getElementById(`status`).innerHTML = `Player ${currentPlayer[0]}: ${currentPlayer[1]}`
     }
 }
 
@@ -51,7 +56,8 @@ function compareCheck(movesLoc){
     })
 }
 
-function reset(){
+function reset(winner){
+    console.log(`test`)
     board = [
         [1,null], [2,null], [3,null],
         [4,null], [5,null], [6,null],
@@ -60,14 +66,17 @@ function reset(){
     winCombos = [
         [1,2,3], [4,5,6], [7,8,9],
         [1,4,7], [2,5,8], [3,6,9],
-        [1,5,6], [7,5,3]
+        [1,5,9], [7,5,3]
     ]
-
-    player = {one: [1,`X`,false, 0], two: [2,`O`,false, 0]}
-    currentPlayer = player.one
-    benchPlayer = player.two
-    let btns = document.querySelectorAll(`.row-button`)
-    btns.forEach(btn => function(){
-        btn.src = ``
-    })
+    player = {one: [1,`X`,false, player1Wins], two: [2,`O`,false, player2Wins]}
+    if(winner == null) winner = player.one
+    winner[2] = false
+    currentPlayer = winner
+    if(currentPlayer[1] == player.one[1])
+        benchPlayer = player.two
+    else
+        benchPlayer = player.one
+    console.log(`Current: ${currentPlayer}`)
+    let icons = document.querySelectorAll(`.placedTile`)
+    icons.forEach(icon => icon.remove())
 }
