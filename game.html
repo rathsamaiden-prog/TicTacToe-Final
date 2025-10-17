@@ -132,8 +132,8 @@
             border: solid 1px hsl(263, 44%, 51%);
             transition: all 0.14s ease-in-out;
         }
-        .x,
-        .o {
+        .placedTile {
+            width: 80%;
             filter: hue-rotate(90deg);
         }
     </style>
@@ -155,17 +155,17 @@
             </div>
         </div>
         <p id="tiecount">0 ties</p>
-        <p id="status">Player1: X</p>
+        <p id="status">Player 1: X</p>
         <div id="columns">
-            <button id="1" class="row-button"></button>
-            <button id="2" class="row-button"></button>
-            <button id="3" class="row-button"></button>
-            <button id="4" class="row-button"></button>
-            <button id="5" class="row-button"></button>
-            <button id="6" class="row-button"></button>
-            <button id="7" class="row-button"></button>
-            <button id="8" class="row-button"></button>
-            <button id="9" class="row-button"></button>
+            <button id="1" class="row-button" onclick="placeTile(this)"></button>
+            <button id="2" class="row-button" onclick="placeTile(this)"></button>
+            <button id="3" class="row-button" onclick="placeTile(this)"></button>
+            <button id="4" class="row-button" onclick="placeTile(this)"></button>
+            <button id="5" class="row-button" onclick="placeTile(this)"></button>
+            <button id="6" class="row-button" onclick="placeTile(this)"></button>
+            <button id="7" class="row-button" onclick="placeTile(this)"></button>
+            <button id="8" class="row-button" onclick="placeTile(this)"></button>
+            <button id="9" class="row-button" onclick="placeTile(this)"></button>
         </div>
     </div>
     <script>
@@ -194,6 +194,7 @@
         }
         typewriter()
     </script>
+  <script src=`script.js`>
 </body>
 
 </html>
