@@ -5,16 +5,17 @@ let currentPlayer
 let benchPlayer
 let player1Wins = 0
 let player2Wins = 0
+let tieCount = 0
 reset()
 
 function placeTile(cell){
-    console.log(currentPlayer)
     let cellLoc = cell.id
     if(board[cellLoc-1][1] != null)
         return
+    cell.classList.replace(`row-button`, `selected-row-button`)
     board[cellLoc-1][1] = currentPlayer[1]
     checkLine(currentPlayer[1])
-    setUIVals(cell)
+    if(setUIVals(cell)) return
     if(currentPlayer[1] === `X`){
         currentPlayer = player.two
         benchPlayer = player.one
@@ -25,8 +26,13 @@ function placeTile(cell){
 }
 
 function setUIVals(cell){
-        console.log(currentPlayer)
-
+    if(cell == null){
+        tieCount += 1
+        document.getElementById(`tiecount`).innerHTML = `${tieCount} ties`
+        reset()
+        cell.innerHTML = `<img src="img/${currentPlayer[1]}.png" class="placedTile">`
+        return
+    }
     cell.innerHTML = `<img src="img/${currentPlayer[1]}.png" class="placedTile">`
     cell.classList.replace("row-button", "selected-row-button");
     document.getElementById(`status`).innerHTML = `Player ${benchPlayer[0]}: ${benchPlayer[1]}`
@@ -37,6 +43,7 @@ function setUIVals(cell){
         document.getElementById(`p${currentPlayer[0]}score`).innerHTML = currentPlayer[3]
         reset(currentPlayer)
         document.getElementById(`status`).innerHTML = `Player ${currentPlayer[0]}: ${currentPlayer[1]}`
+        return true
     }
 }
 
@@ -61,10 +68,10 @@ function compareCheck(movesLoc){
             if(containNum === 3) currentPlayer[2] = true
         })
     })
+    if(movesLoc.length === 4) setUIVals(null)
 }
 
 function reset(winner){
-    console.log(`test`)
     board = [
         [1,null], [2,null], [3,null],
         [4,null], [5,null], [6,null],
@@ -83,7 +90,9 @@ function reset(winner){
         benchPlayer = player.two
     else
         benchPlayer = player.one
-    console.log(`Current: ${currentPlayer}`)
+    let btns = document.querySelectorAll(`.selected-row-button`)
+    btns.forEach(btn => btn.classList.replace(`selected-row-button`, `row-button`))
     let icons = document.querySelectorAll(`.placedTile`)
     icons.forEach(icon => icon.remove())
+    return currentPlayer
 }
