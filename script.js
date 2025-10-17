@@ -25,7 +25,10 @@ function placeTile(cell){
 }
 
 function setUIVals(cell){
+        console.log(currentPlayer)
+
     cell.innerHTML = `<img src="img/${currentPlayer[1]}.png" class="placedTile">`
+    cell.classList.replace("row-button", "selected-row-button");
     document.getElementById(`status`).innerHTML = `Player ${benchPlayer[0]}: ${benchPlayer[1]}`
     if(currentPlayer[2]){
         currentPlayer[3] += 1
@@ -38,6 +41,8 @@ function setUIVals(cell){
 }
 
 function checkLine(currentPlayer){
+        console.log(currentPlayer)
+
     let playerLocs = board
     let movesLoc = new Array()
     playerLocs.filter(function(placedMove){
@@ -47,6 +52,8 @@ function checkLine(currentPlayer){
 }
 
 function compareCheck(movesLoc){
+        console.log(currentPlayer)
+
     winCombos.forEach(function(combo){
         let containNum = 0
         combo.forEach(function(num){
