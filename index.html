@@ -225,6 +225,14 @@
             font-size: 14px;
         }
 
+        #status2 {
+            color: hsl(263, 44%, 51%);
+            text-align: center;
+            margin: 1px 0;
+            font-size: 16px;
+            font-weight: bolder;
+        }
+
         .score {
             color: #ffffff;
             border: solid 1px hsl(263, 44%, 51%);
@@ -266,6 +274,12 @@
 
         .placedTile {
             width: 80%;
+            filter: brightness(0) invert(1);
+            transition: width ease-in 0.4s;
+        }
+        
+        .winningtile {
+            width: 90%;
             filter: brightness(0) invert(1);
         }
     </style>
