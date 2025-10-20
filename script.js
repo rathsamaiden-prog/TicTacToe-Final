@@ -63,7 +63,7 @@ function compareCheck(movesLoc){
             if(containNum === 3) currentPlayer[2] = true
         })
     })
-    if(movesLoc.length === 4) setUIVals(null)
+    if(movesLoc.length === 5) setUIVals(null)
 }
 
 function reset(winner){
