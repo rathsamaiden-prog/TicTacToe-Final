@@ -6,6 +6,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
+        :root {
+            --card-w: 400px;
+            --side-pad: clamp(8px, 2.5vw, 16px);
+            --gap: clamp(6px, 1.8vw, 12px);
+            --tile-radius: 16px;
+            --title-size: clamp(18px, 2.8vw, 24px);
+            --score-size: clamp(14px, 2.2vw, 18px);
+            --body-size: clamp(12px, 1.8vw, 16px);
+            --fadepx: 12px
+        }
+
+        html,
+        body {
+            overflow-x: hidden;
+            height: 100%;
+        }
+
         body {
             display: flex;
             align-items: center;
@@ -15,14 +32,112 @@
             background: radial-gradient(circle at top left, #1e1b29, #0d0c11);
             font-family: 'Segoe UI', sans-serif;
         }
-        #outersect {
-            background: linear-gradient(145deg, #17151f, #1f1c29);
-            width: 360px;
-            height: 650px;
-            border-radius: 15px;
-            padding: 10px;
-            border: 1px solid rgba(97, 32, 181, 0.2);
+
+        #backgroundcont {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            overflow: hidden
         }
+
+        .ball {
+            position: absolute;
+            width: 78vmax;
+            height: 78vmax;
+            border-radius: 50%;
+            background: radial-gradient(circle at 50% 50%, rgba(150, 90, 255, .28) 0%, rgba(150, 90, 255, .2) 22%, rgba(150, 90, 255, .08) 48%, rgba(150, 90, 255, 0) 64%);
+            filter: blur(40px);
+            will-change: transform;
+            transform: translate3d(0, 0, 0);
+            backface-visibility: hidden;
+            animation: drift1 30s ease-in-out infinite alternate
+        }
+
+        .ball.alt {
+            width: 88vmax;
+            height: 88vmax;
+            background: radial-gradient(circle at 50% 50%, rgba(190, 120, 255, .24) 0%, rgba(190, 120, 255, .16) 24%, rgba(190, 120, 255, .07) 50%, rgba(190, 120, 255, 0) 66%);
+            filter: blur(46px);
+            animation: drift2 40s ease-in-out infinite alternate
+        }
+
+        @keyframes drift1 {
+            0% {
+                transform: translate3d(-16vw, -12vh, 0) scale(1)
+            }
+
+            35% {
+                transform: translate3d(28vw, -6vh, 0) scale(1.05)
+            }
+
+            68% {
+                transform: translate3d(10vw, 28vh, 0) scale(1.08)
+            }
+
+            100% {
+                transform: translate3d(-12vw, 14vh, 0) scale(1)
+            }
+        }
+
+        @keyframes drift2 {
+            0% {
+                transform: translate3d(58vw, 56vh, 0) scale(.98)
+            }
+
+            30% {
+                transform: translate3d(18vw, 42vh, 0) scale(1.06)
+            }
+
+            70% {
+                transform: translate3d(62vw, 12vh, 0) scale(1.02)
+            }
+
+            100% {
+                transform: translate3d(52vw, 52vh, 0) scale(.99)
+            }
+        }
+
+        #outersect {
+            position: relative;
+            background: linear-gradient(145deg, #17151f, #1f1c29);
+            width: var(--card-w);
+            max-height: 96vh;
+            border-radius: var(--tile-radius);
+            padding: var(--side-pad);
+            border: 1px solid rgba(97, 32, 181, .2);
+            overflow: auto;
+            backdrop-filter: saturate(120%) blur(8px);
+            -webkit-backdrop-filter: saturate(120%) blur(8px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .35), inset 0 1px 0 rgba(255, 255, 255, .05);
+            --mx: 50%;
+            --my: 50%;
+            --brop: 1;
+            --bw: 2px;
+            --glow: 10px
+        }
+
+        #outersect::before,
+        #outersect::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: var(--tile-radius);
+            padding: var(--bw);
+            pointer-events: none;
+            background: radial-gradient(180px 180px at var(--mx) var(--my), rgba(190, 120, 255, .95) 0%, rgba(150, 90, 255, .65) 35%, rgba(150, 90, 255, .15) 60%, rgba(150, 90, 255, 0) 70%);
+            -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: var(--brop);
+            transition: opacity .2s linear
+        }
+
+        #outersect::after {
+            filter: blur(var(--glow));
+            opacity: calc(var(--brop)*.6)
+        }
+
         #titlesect {
             text-align: center;
             color: #dcd0ff;
@@ -34,55 +149,64 @@
             height: 28px;
             white-space: nowrap;
         }
+
         #cursor {
             display: inline-block;
             color: #dcd0ff;
             font-weight: bold;
             animation: inout 0.8s steps(2, start) infinite;
         }
+
         @keyframes inout {
             to {
                 visibility: hidden;
             }
         }
+
         #columns {
-            width: 300px;
-            height: 300px;
+            width: 350px;
+            height: 350px;
             display: flex;
             flex-wrap: wrap;
             align-content: flex-start;
             justify-content: center;
             margin: 25px auto 0 auto;
         }
+
         #statsect {
             display: flex;
             justify-content: center;
             gap: 10px;
         }
+
         #player1stats,
         #player2stats {
-            width: 147.5px;
+            width: 200px;
             text-align: center;
             background-color: rgba(160, 102, 255, 0.1);
             border-radius: 8px;
             padding: 5px 0;
             transition: transform 0.25s ease, box-shadow 0.25s ease;
         }
+
         #player1stats:hover,
         #player2stats:hover {
             transform: translateY(-5px);
             box-shadow: 0 4px 10px rgba(86, 43, 156, 0.2);
         }
+
         #playertitle {
             color: #dcd0ff;
             border-bottom: solid 2px #63537c;
             padding-bottom: 6px;
             font-size: larger;
         }
+
         #whitestyle {
             color: rgb(210, 197, 197);
             font-size: smaller;
         }
+
         #tiecount {
             color: rgb(210, 197, 197);
             text-align: center;
@@ -90,14 +214,16 @@
             font-size: 14px;
             padding-bottom: 10px;
             border-bottom: solid 2px #63537c;
-            width: 287px;
+            width: 300px;
         }
+
         #status {
             color: rgb(210, 197, 197);
             text-align: center;
             margin: 8px 0;
             font-size: 14px;
         }
+
         .score {
             color: #ffffff;
             border: solid 1px hsl(263, 44%, 51%);
@@ -108,23 +234,27 @@
             background-color: rgba(97, 32, 181, 0.15);
             font-weight: 600;
         }
+
         .row-button {
-            height: 95px;
-            width: 95px;
+            height: 32%;
+            width: 32%;
             background-color: #181621;
             border: solid 1px hsl(263, 44%, 51%);
             transition: all 0.14s ease-in-out;
         }
+
         .row-button:hover {
             border-color: #b788ff;
             box-shadow: 0 0 8px #b788ff55;
             transform: scale(1.05);
         }
+
         .row-button:active {
             background-color: rgba(97, 32, 181, 0.15);
             border-color: #ffffff;
             transform: scale(0.98);
         }
+
         .selected-row-button {
             height: 95px;
             width: 95px;
@@ -132,6 +262,7 @@
             border: solid 1px hsl(263, 44%, 51%);
             transition: all 0.14s ease-in-out;
         }
+
         .placedTile {
             width: 80%;
             filter: brightness(0) invert(1);
@@ -140,6 +271,11 @@
 </head>
 
 <body>
+    <div id="backgroundcont">
+        <div class="ball" style="left:-22vmax;top:-16vmax"></div>
+        <div class="ball alt" style="right:-26vmax;bottom:-22vmax"></div>
+    </div>
+
     <div id="outersect">
         <p id="titlesect"><span id="typewriter"></span><span id="cursor">|</span></p>
         <div id="statsect">
@@ -170,10 +306,28 @@
     </div>
     <script>
         const title = document.getElementById("typewriter")
+        const outer = document.getElementById("outersect")
         const txt = "Tic-Tac-Toe"
         let i = 0
         let del = false
+        let raf = null, mx = 100, my = 100
 
+        function upd() {
+            outer.style.setProperty('--mx', mx + '%');
+            outer.style.setProperty('--my', my + '%');
+            raf = null
+        }
+
+        function moveitmoveit(e) {
+            const r = outer.getBoundingClientRect();
+            const x = e.clientX - (r.left);
+            const y = e.clientY - (r.top);
+            mx = (x / r.width) * 100;
+            my = (y / r.height) * 100;
+            if (!raf) raf = requestAnimationFrame(upd)
+        }
+        document.addEventListener('mousemove', moveitmoveit)
+        if (typeof placeTile !== "function") { window.placeTile = function (btn) { } }
         function typewriter() { // recursive function to handle the typewriter animation
             if (!del) {
                 title.textContent = txt.slice(0, i++)
