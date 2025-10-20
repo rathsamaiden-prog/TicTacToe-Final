@@ -48,8 +48,6 @@ function setUIVals(cell){
 }
 
 function checkLine(currentPlayer){
-        console.log(currentPlayer)
-
     let playerLocs = board
     let movesLoc = new Array()
     playerLocs.filter(function(placedMove){
@@ -59,8 +57,6 @@ function checkLine(currentPlayer){
 }
 
 function compareCheck(movesLoc){
-        console.log(currentPlayer)
-
     winCombos.forEach(function(combo){
         let containNum = 0
         combo.forEach(function(num){
@@ -68,7 +64,7 @@ function compareCheck(movesLoc){
             if(containNum === 3) currentPlayer[2] = true
         })
     })
-    if(movesLoc.length === 4) setUIVals(null)
+    if(movesLoc.length === 5) setUIVals(null)
 }
 
 function reset(winner){
