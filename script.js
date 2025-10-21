@@ -6,10 +6,12 @@ let benchPlayer
 let player1Wins = 0
 let player2Wins = 0
 let tieCount = 0
+let tieCheck
 let winMove
 reset()
 
 function placeTile(cell){
+    if(winMove) return
     let cellLoc = cell.id
     if(board[cellLoc-1][1] != null)
         return
@@ -27,31 +29,36 @@ function placeTile(cell){
 }
 
 function setUIVals(cell){
+    if(tieCheck){
+        let btns = document.querySelectorAll(`.selected-row-button`)
+        btns.forEach(function(btn){
+            btn.classList.replace(`selected-row-button`, `row-button`)
+        })
+        tieCheck = false
+        return
+    }
     if(cell == null){
         tieCount += 1
         document.getElementById(`tiecount`).innerHTML = `${tieCount} ties`
+        tieCheck = true
         reset()
-        cell.innerHTML = `<img src="img/${currentPlayer[1]}.png" class="placedTile">`
         return
     }
     cell.innerHTML = `<img src="img/${currentPlayer[1]}.png" class="placedTile">`
     cell.classList.replace("row-button", "selected-row-button");
     document.getElementById(`status`).innerHTML = `Player ${benchPlayer[0]}: ${benchPlayer[1]}`
     if(currentPlayer[2]){
-        document.getElementById(`status`).replace(`status`, `status2`)
+        document.getElementById(`status`).id = `status2`
         document.getElementById(`status2`).innerHTML = `Player ${currentPlayer[1]} Wins`
-        let btns = document.querySelectorAll(`row-button`)
-        btns.array.forEach(btn => {
-            if(winMove.includes(btn.id)) 
-                document.getElementById(`${btn.id}`).children.replace(`placedTile`, `winningTile`)
-        });
         setTimeout(() => {
-            currentPlayer[3] += 1
+            benchPlayer[3] += 1
             player1Wins = player.one[3]
             player2Wins = player.two[3]
-            document.getElementById(`p${currentPlayer[0]}score`).innerHTML = currentPlayer[3]
-            reset(currentPlayer)
-            document.getElementById(`status`).innerHTML = `Player ${currentPlayer[0]}: ${currentPlayer[1]}`
+            document.getElementById(`p${benchPlayer[0]}score`).innerHTML = benchPlayer[3]
+            document.getElementById(`status2`).innerHTML = `Player ${benchPlayer[0]}: ${benchPlayer[1]}`
+            setTimeout(() => {
+                reset(benchPlayer)
+            }, 1);
             return true
         }, 2000);
     }
@@ -75,7 +82,7 @@ function compareCheck(movesLoc){
             if(currentPlayer[2] === true) winMove = combo
         })
     })
-    if(movesLoc.length === 5) setUIVals(null)
+    if(movesLoc.length === 5 && !currentPlayer[2]) setUIVals(null)
 }
 
 function reset(winner){
@@ -103,7 +110,7 @@ function reset(winner){
         btn.classList.replace(`selected-row-button`, `row-button`)
         btn.classList.replace(`winningTile`, `row-button`)
     })
-    document.getElementById(`status2`).replace(`status2`, `status`)
+    if(!tieCheck) document.getElementById(`status2`).id = `status`
     let icons = document.querySelectorAll(`.placedTile`)
     icons.forEach(icon => icon.remove())
     return currentPlayer
